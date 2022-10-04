@@ -1,0 +1,314 @@
+{
+  "name": "kpc8-tools",
+  "displayName": "KPC8 tools",
+  "version": "0.0.1",
+  "publisher": "kliveninc",
+  "description": "Starter extension for developing debug adapters for VS Code.",
+  "author": {
+    "name": "Oskar Hącel"
+  },
+  "license": "MIT",
+  "keywords": [
+    "multi-root ready"
+  ],
+  "engines": {
+    "vscode": "^1.66.0"
+  },
+  "icon": "images/kpc8-tools-icon.png",
+  "categories": [
+    "Debuggers",
+    "Programming Languages"
+  ],
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Microsoft/vscode-kpc8-tools.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Microsoft/vscode-kpc8-tools/issues"
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "lint": "eslint src --ext ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "esbuild-base": "esbuild ./src/extension.ts --bundle --tsconfig=./tsconfig.json --external:vscode --format=cjs --platform=node --outfile=dist/extension.js",
+    "watch": "npm run -S esbuild-base -- --sourcemap --sources-content=false --watch",
+    "watch-web": "npm run -S esbuild-web -- --sourcemap --sources-content=false --watch",
+    "build": "npm run -S esbuild-base -- --sourcemap --sources-content=false && npm run -S esbuild-web -- --sourcemap --sources-content=false",
+    "package": "vsce package",
+    "publish": "vsce publish",
+    "publish-pre-release": "vsce publish --pre-release",
+    "vscode:prepublish": "rimraf dist && npm run -S esbuild-base -- --minify && npm run -S esbuild-web -- --minify",
+    "test": "npm run typecheck"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.2.0",
+    "@types/mocha": "^9.1.0",
+    "@types/node": "^14.14.37",
+    "@types/vscode": "^1.66.0",
+    "@typescript-eslint/eslint-plugin": "^5.17.0",
+    "@typescript-eslint/parser": "^5.17.0",
+    "@vscode/debugadapter": "^1.55.1",
+    "@vscode/debugadapter-testsupport": "^1.55.1",
+    "await-notify": "^1.0.1",
+    "base64-js": "^1.5.1",
+    "esbuild": "^0.14.29",
+    "eslint": "^8.12.0",
+    "events": "^3.3.0",
+    "glob": "^7.2.0",
+    "mocha": "^9.2.2",
+    "path-browserify": "^1.0.1",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.6.3",
+    "url": "^0.11.0",
+    "vsce": "^2.7.0"
+  },
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onDebugResolve:kpcdbg",
+    "onDebugDynamicConfigurations:mock",
+    "onCommand:extension.kpc8-tools.getProgramName",
+    "onCommand:extension.kpc8-tools.runEditorContents",
+    "onCommand:extension.kpc8-tools.debugEditorContents",
+    "onLanguage:kpc"
+  ],
+  "workspaceTrust": {
+    "request": "never"
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "kpc",
+        "aliases": [
+          "kpc"
+        ],
+        "extensions": [
+          ".kpc"
+        ],
+        "configuration": "./src/syntaxes/language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "kpc",
+        "scopeName": "source.kpc",
+        "path": "./src/syntaxes/kpc.tmLanguage.json"
+      }
+    ],
+    "menus": {
+      "editor/title/run": [
+        {
+          "command": "extension.kpc8-tools.runEditorContents",
+          "when": "resourceLangId == kpc",
+          "group": "navigation@1"
+        },
+        {
+          "command": "extension.kpc8-tools.debugEditorContents",
+          "when": "resourceLangId == kpc",
+          "group": "navigation@2"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "extension.kpc8-tools.debugEditorContents",
+          "when": "resourceLangId == kpc"
+        },
+        {
+          "command": "extension.kpc8-tools.runEditorContents",
+          "when": "resourceLangId == kpc"
+        }
+      ],
+      "debug/variables/context": [
+        {
+          "command": "extension.kpc8-tools.changeFormatRequest.binary",
+          "when": "debugType == 'kpcdbg'"
+        },
+        {
+          "command": "extension.kpc8-tools.changeFormatRequest.hexWord",
+          "when": "debugType == 'kpcdbg'"
+        },
+        {
+          "command": "extension.kpc8-tools.changeFormatRequest.hexTwoBytes",
+          "when": "debugType == 'kpcdbg'"
+        },
+        {
+          "command": "extension.kpc8-tools.changeFormatRequest.decWordUnsigned",
+          "when": "debugType == 'kpcdbg'"
+        },
+        {
+          "command": "extension.kpc8-tools.changeFormatRequest.decWordSigned",
+          "when": "debugType == 'kpcdbg'"
+        },
+        {
+          "command": "extension.kpc8-tools.changeFormatRequest.decTwoBytesUnsigned",
+          "when": "debugType == 'kpcdbg'"
+        },
+        {
+          "command": "extension.kpc8-tools.changeFormatRequest.decTwoBytesSigned",
+          "when": "debugType == 'kpcdbg'"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "extension.kpc8-tools.debugEditorContents",
+        "title": "Debug File",
+        "category": "Mock Debug",
+        "enablement": "!inDebugMode",
+        "icon": "$(debug-alt)"
+      },
+      {
+        "command": "extension.kpc8-tools.runEditorContents",
+        "title": "Run File",
+        "category": "Mock Debug",
+        "enablement": "!inDebugMode",
+        "icon": "$(play)"
+      },
+      {
+        "command": "extension.kpc8-tools.changeFormatRequest.binary",
+        "title": "Change formatting to binary"
+      },
+      {
+        "command": "extension.kpc8-tools.changeFormatRequest.hexWord",
+        "title": "Change formatting to hex word"
+      },
+      {
+        "command": "extension.kpc8-tools.changeFormatRequest.hexTwoBytes",
+        "title": "Change formatting to hex two bytes"
+      },
+      {
+        "command": "extension.kpc8-tools.changeFormatRequest.decWordUnsigned",
+        "title": "Change formatting to dec word unsigned"
+      },
+      {
+        "command": "extension.kpc8-tools.changeFormatRequest.decWordSigned",
+        "title": "Change formatting to dec word signed"
+      },
+      {
+        "command": "extension.kpc8-tools.changeFormatRequest.decTwoBytesUnsigned",
+        "title": "Change formatting to dec two bytes unsigned"
+      },
+      {
+        "command": "extension.kpc8-tools.changeFormatRequest.decTwoBytesSigned",
+        "title": "Change formatting to dec two bytes signed"
+      }
+    ],
+    "breakpoints": [
+      {
+        "language": "kpc"
+      }
+    ],
+    "debuggers": [
+      {
+        "type": "kpcdbg",
+        "languages": [
+          "kpc"
+        ],
+        "label": "KPC8 Debug",
+        "configurationAttributes": {
+          "launch": {
+            "required": [
+              "kpc8PlayerPath",
+              "sourceFilePath"
+            ],
+            "properties": {
+              "kpc8PlayerPath": {
+                "type": "string",
+                "description": "Absolute path to KPC8 Player executable file",
+                "default": "C:/Program Files/KPC8/KPC8Player.exe"
+              },
+              "sourceFilePath": {
+                "type": "string",
+                "description": "Absolute path to a .kpc source file",
+                "default": "${file}"
+              },
+              "pauseAtEntry": {
+                "type": "boolean",
+                "description": "Automatically pause debugging after launch.",
+                "default": true
+              },
+              "defaultDisplayFormat": {
+                "type": "string",
+                "description": "Default display format of variables",
+                "enum": [
+                  "binary",
+                  "hexWord",
+                  "hexTwoBytes",
+                  "decWordUnsigned",
+                  "decWordSigned",
+                  "decTwoBytesUnsigned",
+                  "decTwoBytesSigned"
+                ]
+              }
+            }
+          },
+          "attach": {
+            "required": [
+              "sourceFilePath",
+              "debuggerAddress",
+              "debuggerPort"
+            ],
+            "properties": {
+              "program": {
+                "type": "string",
+                "description": "Absolute path to a text file.",
+                "default": "${workspaceFolder}/${command:AskForProgramName}"
+              },
+              "debuggerAddress": {
+                "type": "string",
+                "description": "Address (IP) of the debugger"
+              },
+              "debuggerPort": {
+                "type": "string",
+                "description": "Port of the debugger"
+              },
+              "defaultDisplayFormat": {
+                "type": "string",
+                "description": "Default display format of variables",
+                "enum": [
+                  "binary",
+                  "hexWord",
+                  "hexTwoBytes",
+                  "decWordUnsigned",
+                  "decWordSigned",
+                  "decTwoBytesUnsigned",
+                  "decTwoBytesSigned"
+                ]
+              }
+            }
+          }
+        },
+        "initialConfigurations": [
+          {
+            "type": "kpcdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/${command:AskForProgramName}"
+          },
+          {
+            "type": "kpcdbg",
+            "request": "attach",
+            "debuggerAddress": "localhost",
+            "debuggerPort": "32137",
+            "program": "${workspaceFolder}/${command:AskForProgramName}"
+          }
+        ],
+        "configurationSnippets": [
+          {
+            "label": "Mock Debug: Launch",
+            "description": "A new configuration for 'debugging' a user selected kpc file.",
+            "body": {
+              "type": "kpcdbg",
+              "request": "launch",
+              "name": "Ask for file name",
+              "program": "^\"\\${workspaceFolder}/\\${command:AskForProgramName}\"",
+              "stopOnEntry": true
+            }
+          }
+        ],
+        "variables": {
+          "AskForProgramName": "extension.kpc8-tools.getProgramName"
+        }
+      }
+    ]
+  }
+}

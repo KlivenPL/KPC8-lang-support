@@ -1,0 +1,8 @@
+out
+dist
+node_modules
+.vscode-test/
+npm-debug.log
+kpc8-tools.txt
+*.vsix
+.DS_Store

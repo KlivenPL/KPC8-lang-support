@@ -1,0 +1,140 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "KPC",
+	"patterns": [
+		{
+			"include": "#comments"
+		},
+		{
+			"include": "#constants"
+		},
+		{
+			"include": "#registers"
+		},
+		{
+			"include": "#regions"
+		},
+		{
+			"include": "#labels"
+		},
+		{
+			"include": "#commands"
+		},
+		{
+			"include": "#instructions"
+		},
+		{
+			"include": "#strings"
+		}
+	],
+	"repository": {
+		"comments": {
+			"name": "comment.line.double-slash.kpc",
+			"begin": "//",
+			"end": "\n",
+			"patterns": [
+				{
+					"match": ".*"
+				},
+				{
+					"begin": "{",
+					"end": "}",
+					"patterns": [
+						{
+							"name": "variable.language.kpc",
+							"match": "\\B\\$(?i)(Zero|T4|Sp|Fp|T1|T2|T3|Ass|S1|S2|S3|A1|A2|A3|Rt|Ra)"
+						}
+					]
+				}
+			]
+		},
+		"registers": {
+			"patterns": [
+				{
+					"name": "variable.language.kpc",
+					"match": "\\B\\$(?i)(Zero|T4|Sp|Fp|T1|T2|T3|Ass|S1|S2|S3|A1|A2|A3|Rt|Ra)"
+				}
+			]
+		},
+		"constants": {
+			"patterns": [
+				{
+					"captures": {
+						"1": {
+							"name": "constant.numeric.kpc"
+						}
+					},
+					"match": "\\b([0-9]+)\\b"
+				},
+				{
+					"captures": {
+						"0": {
+							"name": "constant.numeric.kpc"
+						}
+					},
+					"match": "\\b0[xX][0-9a-fA-F]+\\b"
+				},
+				{
+					"captures": {
+						"0": {
+							"name": "constant.numeric.kpc"
+						}
+					},
+					"match": "\\b0[bB][0-1]+\\b"
+				}
+			]
+		},
+		"regions": {
+			"patterns": [
+				{
+					"name": "keyword.operator.kpc",
+					"match": "\\B\\*(@const|@module)\\b"
+				},
+				{
+					"name": "keyword.control.kpc",
+					"match": "\\B\\*[a-zA-Z0-9]+\\b"
+				}
+			]
+		},
+		"labels": {
+			"patterns": [
+				{
+					"name": "entity.name.function.kpc",
+					"match": "\\B\\:[a-zA-Z0-9]+\\b"
+				}
+			]
+		},
+		"commands": {
+			"name": "markup.italic.kpc",
+			"match": "\\B\\.(?i)(SetAddress|Reserve|Ascii|Asciiz|Defnum|Defreg|DefcolorRGB|DefcolorHEX|Binfile|DebugWrite|InsertModule|ExportRegion)"
+		},
+		"instructions": {
+			"patterns": [
+				{
+					"name": "markup.inserted.kpc",
+					"match": "\\b(?i)(Nop|Lbrom|Lbromo|Lwrom|Lwromo|Lbram|Lbramo|Lwram|Lwramo|Popb|Popw|Lbext|Sbram|SbramI|Sbramo|Swram|Swramo|Pushb|Pushw|Sbext|Add|AddI|Sub|SubI|Addw|Negw|Not|Or|And|Xor|Sll|Srl|Set|SetI|Seth|SethI|Setw|Setloh|Swap|Swaph|Swapw|Swaploh|Jr|Jro|Jas|JpcaddI|JpcsubI|Irrex|Irrret|Irren|Irrdis|Jwz|Jwnotz|Jwn|Jwnotn|Jzf|Jnf|Jcf|Jof)\\b"
+				},
+				{
+					"name": "markup.quote.kpc",
+					"match": "\\b(?i)(LbromI|LbromoI|LwromI|LwromoI|LbramI|LbramoI|LwramI|LwramoI|LbextI|SbramI|SbramoI|SwramI|SwramoI|SbextI|AddwI|Notw|OrI|Orw|OrwI|AndI|Andw|AndwI|XorI|Xorw|XorwI|SetwI|Getl|Jl|Jasl|Jwzl|Jwnotzl|Jwnl|Jwnotnl|Jzfl|Jnfl|Jcfl|Jofl)\\b"
+				}
+			]
+		},
+		"strings": {
+			"name": "string.quoted.double.kpc",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.rgb-value.kpc",
+					"match": "#[0-9a-fA-F]{6}"
+				},
+				{
+					"name": "constant.character.escape.kpc",
+					"match": "\\\\."
+				}
+			]
+		}
+	},
+	"scopeName": "source.kpc"
+}
