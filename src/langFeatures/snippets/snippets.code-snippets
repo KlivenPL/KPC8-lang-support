@@ -1,0 +1,72 @@
+{
+	// Place your KPC8-lang-support workspace snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+	// Placeholders with the same ids are connected.
+	// Example:
+	"Function": {
+		"scope": "kpc",
+		"prefix": "func",
+		"body": [
+			"*${1:functionName}",
+			"\t.defreg ${2:arg1} \\$a1",
+			"\t:main",
+			"\t\tpushw \\$ra \\$sp",
+			"\t\tpushw \\$fp \\$sp",
+			"\t\tsetw \\$fp \\$sp",
+			"",
+			"\t.defnum ${3:localVar1Offset} 0 // word",
+			"\t.defnum ${4:localVar2Offset} 2 // byte",
+			"\t:initialize",
+			"\t\tpushwi 0 \\$sp // ${3:localVar1Offset} default value (word)",
+			"\t\tpushbi 0 \\$sp // ${4:localVar2Offset} default value (byte)",
+			"",
+			"\t.defreg ${5:tmpVar1} \\$t1",
+			"\t.defreg ${6:tmpVar2} \\$t2",
+			"\t:logic",
+			"\t\tnop .debugwrite \"${1:functionName} - not implemented\" // TODO",
+			"",
+			"\t:return",
+			"\t\tsetw \\$sp \\$fp",
+			"\t\tpopw \\$fp \\$sp",
+			"\t\tpopw \\$ra \\$sp",
+			"\t\tjr \\$ra"
+		],
+		"description": "Function snippet"
+	},
+	"Function call": {
+		"scope": "kpc",
+		"prefix": "call",
+		"body": [
+			"set \\$a1 ${2:arg1} // byte",
+			"set \\$a2 ${3:arg2} // byte",
+			"setw \\$a3 ${4:arg3} // word",
+			"jasl ${1:Module.region.label} \\$ra",
+		],
+		"description": "Function call snippet"
+	},
+	"For loop": {
+		"scope": "kpc",
+		"prefix": "for",
+		"body": [
+			"// for (byte ${1:i} = ${2:0}; ${1:i} < ${3:10}; ${1:i}++)",
+			".defreg ${1:i} \\$t1; seti ${1:i} ${2:0};",
+			":forLoop${1:i}Check",
+			"\tcmpsubi ${1:i} ${3:10}",
+			"\tjnfl forLoop${1:i}Logic",
+			"\tjl forLoop${1:i}Exit",
+			"",
+			":forLoop${1:i}Logic",
+			"\tnop // TODO ",
+			"",
+			"\taddi ${1:i} 1",
+			"\tjl forLoop${1:i}Check",
+			"",
+			":forLoop${1:i}Exit",
+			"\tnop // TODO",
+		],
+		"description": "For loop snippet"
+	}
+}

@@ -23,6 +23,14 @@ export enum KpcPseudoinstructionType {
     SwramoI = "Store word ram offset immediate (offset is immediate)",
     SbextI = "Store byte external device immediate (address is immediate)",
 
+    PushbI = "Push byte immediate (value is immediate)",
+    PushwI = "Push word immediate (value is immediate)",
+
+    CmpSubI = "Subtract immediate (update FLAGS only)",
+    CmpAndI = "AND immediate (update FLAGS only)",
+    CmpXorI = "XOR immediate (update FLAGS only)",
+    CmpOrI = "OR immediate (update FLAGS only)",
+
     Notw = "NOT word",
     OrI = "OR immediate",
     Orw = "OR word",

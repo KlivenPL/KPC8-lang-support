@@ -1,5 +1,6 @@
 export enum KpcCommandType {
-    SetAddress = "Set current ROM write address",
+    SetAddress = "Set current ROM write address (does not work for modules)",
+    SetModuleAddress = "Set current ROM module write address (works only for modules)",
     Reserve = "(not implemented)",
     Ascii = "Write ASCII string to current ROM address",
     Asciiz = "Write null terminated ('\\0') ASCII string to current ROM address",

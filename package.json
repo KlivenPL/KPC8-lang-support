@@ -95,6 +95,12 @@
         "path": "./src/syntaxes/kpc.tmLanguage.json"
       }
     ],
+    "snippets": [
+      {
+        "language": "kpc",
+        "path": "./src/langFeatures/snippets/snippets.code-snippets"
+      }
+    ],
     "menus": {
       "editor/title/run": [
         {

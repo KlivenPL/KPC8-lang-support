@@ -106,7 +106,7 @@
 		},
 		"commands": {
 			"name": "markup.italic.kpc",
-			"match": "\\B\\.(?i)(SetAddress|Reserve|Ascii|Asciiz|Defnum|Defreg|DefcolorRGB|DefcolorHEX|Binfile|DebugWrite|InsertModule|ExportRegion)"
+			"match": "\\B\\.(?i)(SetModuleAddress|SetAddress|Reserve|Ascii|Asciiz|Defnum|Defreg|DefcolorRGB|DefcolorHEX|Binfile|DebugWrite|InsertModule|ExportRegion)"
 		},
 		"instructions": {
 			"patterns": [
@@ -116,7 +116,7 @@
 				},
 				{
 					"name": "markup.quote.kpc",
-					"match": "\\b(?i)(LbromI|LbromoI|LwromI|LwromoI|LbramI|LbramoI|LwramI|LwramoI|LbextI|SbramI|SbramoI|SwramI|SwramoI|SbextI|AddwI|Notw|OrI|Orw|OrwI|AndI|Andw|AndwI|XorI|Xorw|XorwI|SetwI|Getl|Jl|Jasl|Jwzl|Jwnotzl|Jwnl|Jwnotnl|Jzfl|Jnfl|Jcfl|Jofl)\\b"
+					"match": "\\b(?i)(LbromI|LbromoI|LwromI|LwromoI|LbramI|LbramoI|LwramI|LwramoI|LbextI|SbramI|SbramoI|SwramI|SwramoI|SbextI|PushbI|PushwI|AddwI|Notw|OrI|Orw|OrwI|AndI|Andw|AndwI|XorI|Xorw|XorwI|CmpOrI|CmpXorI|CmpAndI|CmpSubI|SetwI|Getl|Jl|Jasl|Jwzl|Jwnotzl|Jwnl|Jwnotnl|Jzfl|Jnfl|Jcfl|Jofl)\\b"
 				}
 			]
 		},
