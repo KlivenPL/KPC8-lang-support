@@ -106,7 +106,7 @@
 		},
 		"commands": {
 			"name": "markup.italic.kpc",
-			"match": "\\B\\.(?i)(SetModuleAddress|SetAddress|Reserve|Ascii|Asciiz|Defnum|Defreg|DefcolorRGB|DefcolorHEX|Binfile|DebugWrite|InsertModule|ExportRegion)"
+			"match": "\\B\\.(?i)(SetModuleAddress|SetAddress|Reserve|Asciiz|Ascii|Defnum|Defreg|DefcolorRGB|DefcolorHEX|Binfile|DebugWrite|InsertModule|ExportRegion)"
 		},
 		"instructions": {
 			"patterns": [
