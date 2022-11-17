@@ -1,4 +1,3 @@
-import * as vscode from 'vscode';
 import {
     CancellationToken,
     CompletionItem,
@@ -7,10 +6,11 @@ import {
     Position,
     TextDocument
     } from 'vscode';
-import { KpcCommandType } from './kpcTypes/kpcCommandType';
+import { KpcCommandType } from './docs/kpcCommandType';
 
 'use strict';
 
+const commandDescriptions = Object.entries(KpcCommandType).map(([label, details]) => ({ label, details: String(details) }));
 class CommandItemProvider implements CompletionItemProvider {
     public provideCompletionItems(document: TextDocument, position: Position, token: CancellationToken): Thenable<CompletionItem[]> {
 
@@ -28,8 +28,7 @@ class CommandItemProvider implements CompletionItemProvider {
     }
 
     private provideCommands(): CompletionItem[] {
-        const objects = Object.entries(KpcCommandType).map(([label, details]) => ({ label, details: String(details) }));
-        return objects.map(e => ({
+        return commandDescriptions.map(e => ({
             label: e.label.toLowerCase(),
             detail: e.details,
             kind: CompletionItemKind.Keyword

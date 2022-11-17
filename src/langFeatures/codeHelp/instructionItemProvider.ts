@@ -1,4 +1,3 @@
-import * as vscode from 'vscode';
 import {
     CancellationToken,
     CompletionItem,
@@ -7,8 +6,8 @@ import {
     Position,
     TextDocument
     } from 'vscode';
-import { KpcInstructionType } from './kpcTypes/kpcInstructionType';
-import { KpcPseudoinstructionType } from './kpcTypes/kpcPseudoInstructionType';
+import { KpcInstructionType } from './docs/kpcInstructionType';
+import { KpcPseudoinstructionType } from './docs/kpcPseudoInstructionType';
 
 'use strict';
 

@@ -5,13 +5,13 @@ import InstructionSignatureProvider from './codeHelp/instructionSignatureProvide
 import { ExtensionContext } from 'vscode';
 'use strict';
 
-
-const activateCodeHelp = (context: ExtensionContext) => {
+const activateLangFeatures = (context: ExtensionContext) => {
     context.subscriptions.push(vscode.languages.registerCompletionItemProvider('kpc', new InstructionItemProvider()));
     context.subscriptions.push(vscode.languages.registerCompletionItemProvider('kpc', new CommandItemProvider(), '.'));
+
     const instructionSignatureAndHoverProvider = new InstructionSignatureProvider();
     context.subscriptions.push(vscode.languages.registerSignatureHelpProvider('kpc', instructionSignatureAndHoverProvider, ' ', '\t'));
     context.subscriptions.push(vscode.languages.registerHoverProvider('kpc', instructionSignatureAndHoverProvider));
 }
 
-export default activateCodeHelp;
+export default activateLangFeatures;

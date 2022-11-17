@@ -1,8 +1,5 @@
-import * as vscode from 'vscode';
 import {
     CancellationToken,
-    CompletionItem,
-    CompletionItemKind,
     Hover,
     HoverProvider,
     MarkdownString,
@@ -15,8 +12,7 @@ import {
     } from 'vscode';
 import { getInstructionSignatures } from './docs/kpcSignatures';
 import { IKpcArgument } from './docs/types/kpcArgument';
-import { KpcInstructionType } from './kpcTypes/kpcInstructionType';
-import { KpcPseudoinstructionType } from './kpcTypes/kpcPseudoInstructionType';
+import { KpcInstructionType } from './docs/kpcInstructionType';
 import { TokenClass, TokenClassType } from './docs/types/tokenClass';
 
 'use strict';
@@ -121,15 +117,6 @@ class InstructionSignatureProvider implements SignatureHelpProvider, HoverProvid
                 return `${tokenClass}${i + 1}`;
         }
     }
-
-    /* private providePseudoInstructions(): SignatureHelp[] {
-        const objects = Object.entries(KpcPseudoinstructionType).map(([label, details]) => ({ label, details: String(details) }));
-        return objects.map(e => ({
-            label: e.label.toLowerCase(),
-            detail: `${e.details} (pseudoinstruction)`,
-            kind: CompletionItemKind.Method
-        }));
-    } */
 }
 
 export default InstructionSignatureProvider;
