@@ -6,10 +6,8 @@ import {
     Position,
     TextDocument
     } from 'vscode';
-import { KpcInstructionType } from './docs/kpcInstructionType';
-import { KpcPseudoinstructionType } from './docs/kpcPseudoInstructionType';
-
-'use strict';
+import { KpcInstructionType } from '../docs/kpcInstructionType';
+import { KpcPseudoinstructionType } from '../docs/kpcPseudoInstructionType';
 
 class InstructionItemProvider implements CompletionItemProvider {
     private kpcInstructionDescriptions = Object.entries(KpcInstructionType).map(([label, details]) => ({ label, details: String(details.split("\n\n")[0]) }));
@@ -22,6 +20,10 @@ class InstructionItemProvider implements CompletionItemProvider {
 
     private getCompletionItems(document: TextDocument, position: Position, onfulfilled, onrejected) {
         const line = document.lineAt(position.line).text;
+        if (line.trimLeft().startsWith('.')) {
+            onrejected();
+            return;
+        }
         const emptyLineRegex = /\S/;
         const codeStarRegex = /([a-zA-Z]+\s+)/;
         if (!emptyLineRegex.test(line) || !codeStarRegex.test(line)) {

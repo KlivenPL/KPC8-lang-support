@@ -3,7 +3,7 @@
   "displayName": "KPC8 tools",
   "version": "0.0.1",
   "publisher": "kliveninc",
-  "description": "Starter extension for developing debug adapters for VS Code.",
+  "description": "Language support and debugger for KPC8 assembly language",
   "author": {
     "name": "Oskar Hącel"
   },
@@ -17,7 +17,8 @@
   "icon": "images/kpc8-lang-support-icon.png",
   "categories": [
     "Debuggers",
-    "Programming Languages"
+    "Programming Languages",
+    "Snippets"
   ],
   "private": true,
   "repository": {

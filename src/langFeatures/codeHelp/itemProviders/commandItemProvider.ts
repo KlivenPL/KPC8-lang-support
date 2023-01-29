@@ -6,9 +6,7 @@ import {
     Position,
     TextDocument
     } from 'vscode';
-import { KpcCommandType } from './docs/kpcCommandType';
-
-'use strict';
+import { KpcCommandType } from '../docs/kpcCommandType';
 
 const commandDescriptions = Object.entries(KpcCommandType).map(([label, details]) => ({ label, details: String(details) }));
 class CommandItemProvider implements CompletionItemProvider {
@@ -18,8 +16,9 @@ class CommandItemProvider implements CompletionItemProvider {
     }
 
     private getCompletionItems(document: TextDocument, position: Position, onfulfilled, onrejected) {
-        const line = document.lineAt(position.line).text.replace(/\s+/g, "");
-        if (line.length == 1 && (line.match(/\./g) || []).length == 1) {
+        const line = document.lineAt(position.line).text.trimLeft();
+
+        if (line.startsWith('.') && !/\s/g.test(line)) {
             const allCommands = this.provideCommands();
             onfulfilled(allCommands);
         } else {

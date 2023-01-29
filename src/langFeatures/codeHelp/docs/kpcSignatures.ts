@@ -544,10 +544,7 @@ const signatures: IKpcSignature[] =
           "tokenClass": "Register"
         },
         {
-          "tokenClass": "Register"
-        },
-        {
-          "tokenClass": "Register"
+          "tokenClass": "Number"
         }
       ]
     },
@@ -716,32 +713,80 @@ const signatures: IKpcSignature[] =
     {
       "name": "PushbI",
       "type": "Pseudoinstruction",
-      "arguments": []
+      "arguments": [
+        {
+          "tokenClass": "Number"
+        },
+        {
+          "tokenClass": "Register"
+        }
+      ]
     },
     {
       "name": "PushwI",
       "type": "Pseudoinstruction",
-      "arguments": []
+      "arguments": [
+        {
+          "tokenClass": "Number"
+        },
+        {
+          "tokenClass": "Register"
+        }
+      ]
     },
     {
       "name": "SbextI",
       "type": "Pseudoinstruction",
-      "arguments": []
+      "arguments": [
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Number"
+        }
+      ]
     },
     {
       "name": "SbramoI",
       "type": "Pseudoinstruction",
-      "arguments": []
+      "arguments": [
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Number"
+        }
+      ]
     },
     {
       "name": "SwramI",
       "type": "Pseudoinstruction",
-      "arguments": []
+      "arguments": [
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Number"
+        }
+      ]
     },
     {
       "name": "SwramoI",
       "type": "Pseudoinstruction",
-      "arguments": []
+      "arguments": [
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Number"
+        }
+      ]
     },
     {
       "name": "Getl",
@@ -758,127 +803,323 @@ const signatures: IKpcSignature[] =
     {
       "name": "SetwI",
       "type": "Pseudoinstruction",
-      "arguments": []
+      "arguments": [
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Number"
+        }
+      ]
     },
     {
       "name": "AddwI",
       "type": "Pseudoinstruction",
-      "arguments": []
+      "arguments": [
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Number"
+        }
+      ]
     },
     {
       "name": "AndI",
       "type": "Pseudoinstruction",
-      "arguments": []
+      "arguments": [
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Number"
+        }
+      ]
     },
     {
       "name": "AndwI",
       "type": "Pseudoinstruction",
-      "arguments": []
+      "arguments": [
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Number"
+        }
+      ]
     },
     {
       "name": "Andw",
       "type": "Pseudoinstruction",
-      "arguments": []
+      "arguments": [
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Register"
+        }
+      ]
     },
     {
       "name": "CmpAndI",
       "type": "Pseudoinstruction",
-      "arguments": []
+      "arguments": [
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Number"
+        }
+      ]
     },
     {
       "name": "CmpOrI",
       "type": "Pseudoinstruction",
-      "arguments": []
+      "arguments": [
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Number"
+        }
+      ]
     },
     {
       "name": "CmpSubI",
       "type": "Pseudoinstruction",
-      "arguments": []
+      "arguments": [
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Number"
+        }
+      ]
     },
     {
       "name": "CmpXorI",
       "type": "Pseudoinstruction",
-      "arguments": []
+      "arguments": [
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Number"
+        }
+      ]
     },
     {
       "name": "Notw",
       "type": "Pseudoinstruction",
-      "arguments": []
+      "arguments": [
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Register"
+        }
+      ]
     },
     {
       "name": "OrI",
       "type": "Pseudoinstruction",
-      "arguments": []
+      "arguments": [
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Number"
+        }
+      ]
     },
     {
       "name": "OrwI",
       "type": "Pseudoinstruction",
-      "arguments": []
+      "arguments": [
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Number"
+        }
+      ]
     },
     {
       "name": "Orw",
       "type": "Pseudoinstruction",
-      "arguments": []
+      "arguments": [
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Register"
+        }
+      ]
     },
     {
       "name": "XorI",
       "type": "Pseudoinstruction",
-      "arguments": []
+      "arguments": [
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Number"
+        }
+      ]
     },
     {
       "name": "XorwI",
       "type": "Pseudoinstruction",
-      "arguments": []
+      "arguments": [
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Number"
+        }
+      ]
     },
     {
       "name": "Xorw",
       "type": "Pseudoinstruction",
-      "arguments": []
+      "arguments": [
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Register"
+        }
+      ]
     },
     {
       "name": "LbextI",
       "type": "Pseudoinstruction",
-      "arguments": []
+      "arguments": [
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Number"
+        }
+      ]
     },
     {
       "name": "LbramI",
       "type": "Pseudoinstruction",
-      "arguments": []
+      "arguments": [
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Number"
+        }
+      ]
     },
     {
       "name": "LbramoI",
       "type": "Pseudoinstruction",
-      "arguments": []
+      "arguments": [
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Number"
+        }
+      ]
     },
     {
       "name": "LbromI",
       "type": "Pseudoinstruction",
-      "arguments": []
+      "arguments": [
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Number"
+        }
+      ]
     },
     {
       "name": "LbromoI",
       "type": "Pseudoinstruction",
-      "arguments": []
+      "arguments": [
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Number"
+        }
+      ]
     },
     {
       "name": "LwramI",
       "type": "Pseudoinstruction",
-      "arguments": []
+      "arguments": [
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Number"
+        }
+      ]
     },
     {
       "name": "LwramoI",
       "type": "Pseudoinstruction",
-      "arguments": []
+      "arguments": [
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Number"
+        }
+      ]
     },
     {
       "name": "LwromI",
       "type": "Pseudoinstruction",
-      "arguments": []
+      "arguments": [
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Number"
+        }
+      ]
     },
     {
       "name": "LwromoI",
       "type": "Pseudoinstruction",
-      "arguments": []
+      "arguments": [
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Register"
+        },
+        {
+          "tokenClass": "Number"
+        }
+      ]
     },
     {
       "name": "Jasl",
