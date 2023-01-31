@@ -1,9 +1,9 @@
 ## KPC-8 Language Support extension for Visual Studio Code
 
 ### Requirements
-This version works properly only with one of [AYU themes](https://marketplace.visualstudio.com/items?itemName=teabyii.ayu)
-* Tested with AYU Mirage and AYU Dark
+This version works properly only with one of [AYU themes](https://marketplace.visualstudio.com/items?itemName=teabyii.ayu)  
 Be sure to enable and use it
+* Tested with AYU Mirage and AYU Dark
 
 ### Instalation
 1. Make sure VS code is not running
