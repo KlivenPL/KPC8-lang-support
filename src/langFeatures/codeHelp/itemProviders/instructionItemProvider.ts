@@ -5,7 +5,7 @@ import {
     CompletionItemProvider,
     Position,
     TextDocument
-    } from 'vscode';
+} from 'vscode';
 import { KpcInstructionType } from '../docs/kpcInstructionType';
 import { KpcPseudoinstructionType } from '../docs/kpcPseudoInstructionType';
 
@@ -20,18 +20,14 @@ class InstructionItemProvider implements CompletionItemProvider {
 
     private getCompletionItems(document: TextDocument, position: Position, onfulfilled, onrejected) {
         const line = document.lineAt(position.line).text;
-        if (line.trimLeft().startsWith('.')) {
+        // If the line (after trimming) is not empty, then reject.
+        if (line.trim() !== "") {
             onrejected();
             return;
         }
-        const emptyLineRegex = /\S/;
-        const codeStarRegex = /([a-zA-Z]+\s+)/;
-        if (!emptyLineRegex.test(line) || !codeStarRegex.test(line)) {
-            const allInstructions = this.provideInstructions().concat(this.providePseudoInstructions());
-            onfulfilled(allInstructions);
-        } else {
-            onrejected();
-        }
+        // Otherwise, provide the instruction completions.
+        const allInstructions = this.provideInstructions().concat(this.providePseudoInstructions());
+        onfulfilled(allInstructions);
     }
 
     private provideInstructions(): CompletionItem[] {

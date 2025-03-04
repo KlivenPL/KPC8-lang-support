@@ -9,9 +9,10 @@ import {
     SignatureHelpContext,
     SignatureHelpProvider,
     TextDocument
-    } from 'vscode';
+} from 'vscode';
 import { IKpcArgument } from '../docs/types/kpcArgument';
 import { IKpcSignature } from '../docs/types/kpcSignature';
+import { signatureContext } from '../common/signatureContext';
 import { TokenClassType } from '../docs/types/tokenClass';
 
 abstract class SignatureProvider implements SignatureHelpProvider, HoverProvider {
@@ -47,18 +48,91 @@ abstract class SignatureProvider implements SignatureHelpProvider, HoverProvider
     }
 
     private getSignature(document: TextDocument, position: Position, onfulfilled, onrejected) {
-        const line = document.lineAt(position.line).text.substring(0, position.character);
-        const codeStarRegex = /([a-zA-Z]+\s+)/;
-        if (codeStarRegex.test(line)) {
-            const name = line.match(codeStarRegex)![0].trim();
-            const index = line.trimStart().match(/([\s]+)/g)?.length! - 1 ?? 0;
-            const signature = this.provideSignature(name, index, false);
-            if (signature) {
-                onfulfilled(signature);
+        // Get the full text of the current line.
+        const lineText = document.lineAt(position.line).text;
+
+        // Split the line into segments delimited by ';' and record their start/end positions.
+        const segments: { text: string; start: number; end: number }[] = [];
+        let segStart = 0;
+        for (let i = 0; i < lineText.length; i++) {
+            if (lineText[i] === ';') {
+                segments.push({
+                    text: lineText.substring(segStart, i),
+                    start: segStart,
+                    end: i
+                });
+                segStart = i + 1;
             }
         }
+        // Push the final segment.
+        segments.push({
+            text: lineText.substring(segStart),
+            start: segStart,
+            end: lineText.length
+        });
 
+        // Find the active segment (the one in which the caret is located).
+        let activeSegment = segments.find(seg => position.character >= seg.start && position.character <= seg.end);
+        if (!activeSegment) {
+            activeSegment = segments[segments.length - 1];
+        }
+
+        // Calculate the relative caret position within the active segment.
+        const relativeCaret = position.character - activeSegment.start;
+        // Get the text from the start of the segment to the caret.
+        const segmentText = activeSegment.text.substring(0, relativeCaret);
+        const trimmedSegment = segmentText.trim();
+
+        // If there's no meaningful text in the segment, reject.
+        if (!trimmedSegment) {
+            this.clearSignatureContext()
+            onrejected();
+            return;
+        }
+
+        // Split the segment into tokens by whitespace.
+        const tokens = trimmedSegment.split(/\s+/);
+        // The first token is the instruction/command name.
+        let instructionName = tokens[0];
+        if (instructionName.startsWith('.')) {
+            instructionName = instructionName.substring(1);
+        }
+
+        // Determine the active argument index.
+        // The number of arguments already typed is tokens.length - 1 (instruction is token[0]).
+        // If the segment text ends with whitespace, then the user is starting a new argument.
+        let argumentIndex: number;
+        if (/\s$/.test(segmentText)) {
+            argumentIndex = tokens.length - 1;
+        } else {
+            argumentIndex = tokens.length - 2;
+        }
+        if (argumentIndex < 0) {
+            argumentIndex = 0;
+        }
+
+        // Call your signature provider with the instruction/command name and active argument index.
+        const signature = this.provideSignature(instructionName, argumentIndex, false);
+        if (signature) {
+            this.setSignatureContext(signature.KpcSignature, argumentIndex);
+            onfulfilled(signature.SignatureHelp);
+            return;
+        }
+
+        this.clearSignatureContext()
         onrejected();
+    }
+
+    private setSignatureContext(signature: IKpcSignature, index: number) {
+        signatureContext.activeArgumentIndex = index;
+        signatureContext.kpcSignature = signature;
+        signatureContext.dirty = false;
+    }
+
+    private clearSignatureContext() {
+        signatureContext.activeArgumentIndex = undefined;
+        signatureContext.kpcSignature = undefined;
+        signatureContext.dirty = true;
     }
 
     private getHover(document: TextDocument, position: Position, onfulfilled, onrejected) {
@@ -71,14 +145,14 @@ abstract class SignatureProvider implements SignatureHelpProvider, HoverProvider
 
         const signature = this.provideSignature(word, 0, true);
         if (signature) {
-            const hover: Hover = new Hover(signature.signatures[0]!.documentation! as MarkdownString);
+            const hover: Hover = new Hover(signature.SignatureHelp.signatures[0]!.documentation! as MarkdownString);
             onfulfilled(hover);
         }
 
         onrejected();
     }
 
-    private provideSignature(instructionName: string, argumentIndex: number, withDocumentation: boolean): SignatureHelp | undefined {
+    private provideSignature(instructionName: string, argumentIndex: number, withDocumentation: boolean): { SignatureHelp: SignatureHelp, KpcSignature: IKpcSignature } | undefined {
         const signature = this.signatures.find(x => x.name.toUpperCase() === instructionName.toUpperCase());
         if (!signature) {
             return undefined;
@@ -104,7 +178,7 @@ abstract class SignatureProvider implements SignatureHelpProvider, HoverProvider
             ]
         };
 
-        return signatureHelp;
+        return { KpcSignature: signature, SignatureHelp: signatureHelp };
     }
 
     private formatSignatureLabel(name: string, parameters: IKpcArgument[], parameterStyle: string = "") {
