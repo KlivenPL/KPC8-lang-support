@@ -55,6 +55,21 @@ export function parseDocumentForDefinitions(document: vscode.TextDocument): Defi
         if (!trimmed) continue;
         let match: RegExpExecArray | null;
 
+        // Handle @const special region 
+        if ((match = /^\*@const/.exec(trimmed))) {
+            currentRegion = "@const";
+            currentLabel = undefined;
+            defs.push({
+                identifier: "@const",
+                fullText: "@const special region",
+                type: 'region',
+                context: { module: "@const", region: "@const", extra: "@const" },
+                range: document.lineAt(i).range,
+                fileUri: document.uri
+            });
+            continue;
+        }
+
         // Module marker: "*@module Math"
         if ((match = /^\*@module\s+(\S+)\s*(.*)$/.exec(trimmed))) {
             currentModule = match[1];
@@ -80,21 +95,6 @@ export function parseDocumentForDefinitions(document: vscode.TextDocument): Defi
                 fullText: trimmed,
                 type: 'region',
                 context: { module: currentModule, region: match[1], extra: match[2] || "" },
-                range: document.lineAt(i).range,
-                fileUri: document.uri
-            });
-            continue;
-        }
-
-        // Handle @const special region 
-        if ((match = /^\*(?!@const)(\S+)\s*(.*)$/.exec(trimmed))) {
-            currentRegion = "@const";
-            currentLabel = undefined;
-            defs.push({
-                identifier: "@const",
-                fullText: "@const special region",
-                type: 'region',
-                context: { module: "@const", region: "@const", extra: "@const" },
                 range: document.lineAt(i).range,
                 fileUri: document.uri
             });
@@ -367,7 +367,7 @@ export class IdentifierItemProvider implements vscode.CompletionItemProvider {
                 const defRegion = def.context.region;
                 return defRegion && currentRegion &&
                     defRegion.toLowerCase() === currentRegion.toLowerCase() &&
-                    def.identifier.toLowerCase().startsWith(parts[0].toLowerCase());
+                    (parts[0] === '' || def.identifier.toLowerCase().startsWith(parts[0].toLowerCase()));
             });
             const localItems = localDefs.filter(x => x.type == expectedShitType).map(def => {
                 const item = new vscode.CompletionItem(def.identifier, vscode.CompletionItemKind.Variable);
@@ -430,7 +430,7 @@ export class IdentifierItemProvider implements vscode.CompletionItemProvider {
                     if (!second.trim()) {
                         // We're in the situation where the user typed "Module." and we want to suggest regions.
                         const exportedRegions = new Set<string>();
-                        exportedRegions.add("@const");
+                        // exportedRegions.add("@const");
                         const files = await vscode.workspace.findFiles('**/*.kpc');
                         for (const fileUri of files) {
                             const doc = await vscode.workspace.openTextDocument(fileUri);

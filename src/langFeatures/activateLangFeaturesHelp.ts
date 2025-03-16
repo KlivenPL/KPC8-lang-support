@@ -37,7 +37,7 @@ const activateLangFeatures = (context: ExtensionContext) => {
     context.subscriptions.push(vscode.languages.registerHoverProvider('kpc', new RegisterHoverProvider()));
     context.subscriptions.push(vscode.languages.registerHoverProvider('kpc', new ExpressionValueHoverProvider()));
 
-    context.subscriptions.push(vscode.languages.registerCompletionItemProvider('kpc', new InstructionItemProvider(), ...completionItemTriggers, '\n'));
+    context.subscriptions.push(vscode.languages.registerCompletionItemProvider('kpc', new InstructionItemProvider(), ...completionItemTriggers));
     context.subscriptions.push(vscode.languages.registerCompletionItemProvider('kpc', new IdentifierItemProvider(), ...completionItemTriggers, '.'));
     context.subscriptions.push(vscode.languages.registerCompletionItemProvider('kpc', new RegisterItemProvider(), '$'));
     context.subscriptions.push(vscode.languages.registerCompletionItemProvider('kpc', new CommandItemProvider(), '.'));
